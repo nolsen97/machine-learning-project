@@ -39,7 +39,7 @@ for tweet in t:
 
 df = pd.DataFrame({"text":tweets, "date":created_at})
 df.date = df.date.dt.tz_localize('UTC').dt.tz_convert('US/Eastern')
-df.to_csv('tweets.csv')
+df.to_csv('tweets.csv', index=False)
 
 """
 file = open("tweets.txt", "w")
