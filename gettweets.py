@@ -34,7 +34,7 @@ file = open("tweets.txt", "w")
 
 for i in tweets:
     i = i.replace('\n', ' ')
-    file.write(i)
+    file.write(i.lower())
     file.write('\n')
 
 file.close()
