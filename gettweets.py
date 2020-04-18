@@ -17,8 +17,13 @@ auth.set_access_token(access_token_key, access_token_secret)
 api = tweepy.API(auth)
 
 #print(api.VerifyCredentials())
-t = api.user_timeline(screen_name="realDonaldTrump", count=200, tweet_mode='extended')
+t1 = api.user_timeline(screen_name="realDonaldTrump", count=200, tweet_mode='extended')
+t2 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1248475288171761670, tweet_mode='extended')
+t3 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1245754978880241664, tweet_mode='extended')
+t4 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1242414528031227902, tweet_mode='extended')
 
+t = t1+t2+t3[1:]+t4[1:]
+len(t)
 tweets = []
 for tweet in t:
     if 'https://t.co' in tweet.full_text:
@@ -28,8 +33,6 @@ for tweet in t:
     else:
         tweets.append(tweet.full_text)
 
-#len(tweets)
-#print(tweets)
 file = open("tweets.txt", "w")
 
 for i in tweets:
