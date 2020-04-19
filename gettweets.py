@@ -1,4 +1,4 @@
-# NO NEED TO RERUN THIS FILE
+# DO NOT RERUN THIS FILE
 
 import tweepy
 from dotenv import load_dotenv
@@ -20,11 +20,11 @@ auth.set_access_token(access_token_key, access_token_secret)
 api = tweepy.API(auth)
 
 t1 = api.user_timeline(screen_name="realDonaldTrump", count=200, tweet_mode='extended')
-t2 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1248475288171761670, tweet_mode='extended')
-t3 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1245754978880241664, tweet_mode='extended')
-t4 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1242414528031227902, tweet_mode='extended')
+t2 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1249042796151017472, tweet_mode='extended')
+t3 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1246459270352207879, tweet_mode='extended')
+t4 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1243312056805318656, tweet_mode='extended')
 
-t = t1+t2+t3[1:]+t4[1:]
+t = t1+t2[1:]+t3[1:]+t4[1:]
 
 tweets = []
 created_at = []
@@ -32,9 +32,9 @@ for tweet in t:
     if 'https://t.co' in tweet.full_text:
         continue
     if tweet.full_text[0:2] == 'RT':
-        tweets.append(tweet.retweeted_status.full_text.replace('\n', ' '))
+        tweets.append(tweet.retweeted_status.full_text.replace('\n', ' ').lower())
     else:
-        tweets.append(tweet.full_text.replace('\n', ' '))
+        tweets.append(tweet.full_text.replace('\n', ' ').lower())
     created_at.append(tweet.created_at)
 
 df = pd.DataFrame({"text":tweets, "date":created_at})
