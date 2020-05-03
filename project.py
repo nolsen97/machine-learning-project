@@ -5,7 +5,7 @@ import datetime
 import word2vec
 
 tweets = pd.read_csv('tweets.csv', parse_dates= ['date'])
-sp500 = pd.read_csv('CL=F.csv', parse_dates= ['Date'])
+df = pd.read_csv('^GSPC.csv', parse_dates= ['Date'])
 
 
 
@@ -20,13 +20,13 @@ if stock market goes down, label these words negatively
 Train on 70%, Test on 30%
 """
 
-sp500['Diff'] = sp500['Adj Close'] - sp500['Open']
+df['Diff'] = df['Adj Close'] - df['Open']
 
-#for i in sp500['Diff']:
+#for i in df['Diff']:
 #    print(i)
 
 tweets['date'] = tweets['date'].dt.date
-sp500['Date'] = sp500['Date'].dt.date
+df['Date'] = df['Date'].dt.date
 
 #len(tweets['date'])
 
@@ -34,19 +34,19 @@ tweets['stock_mov'] = 1122 * [0]
 
 # Creates a column in tweets dataframe that assigns the stock movement to the previous days tweets (days where the sotck market was closed are 0)
 diff1 = datetime.timedelta(days=1)
-for i in range(len(sp500['Date'])):
-    prev_day = sp500['Date'].loc[i] - diff1
-    tweets.loc[tweets['date'] == prev_day, 'stock_mov'] = sp500['Diff'].loc[i]
+for i in range(len(df['Date'])):
+    prev_day = df['Date'].loc[i] - diff1
+    tweets.loc[tweets['date'] == prev_day, 'stock_mov'] = df['Diff'].loc[i]
 
+
+# Randomize order
+tweets = tweets.sample(frac=1).reset_index(drop=True)
 
 # TRAINING
 # might want to group all @s and videos together!
 words_weight = {}
-# 70% is up to 376
-for i in tweets['text'][0:900]:
-#    print(i)
 
-    #print(tweets.loc[tweets['text'] == i, 'stock_mov'].iloc[0])
+for i in tweets['text'][0:900]:
     for j in i.split():
         if j not in words_weight:
             words_weight[j] = 0.01 * tweets.loc[tweets['text'] == i, 'stock_mov'].iloc[0]
