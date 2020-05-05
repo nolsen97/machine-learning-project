@@ -68,6 +68,8 @@ def train(tweets):
             print(str(100*(counter/11950))  + "%" + " complete")
 
         for j in i.split():
+            if j in stop_words:
+                continue
             if j not in words_weight:
                 words_weight[j] = 0.01 * tweets.loc[tweets['text'] == i, 'stock_mov'].iloc[0]
             else:
