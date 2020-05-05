@@ -133,7 +133,7 @@ def test(tweets, words_weight):
 
 if __name__ == '__main__':
     tweets = pd.read_csv('tweets_updated.csv', parse_dates= ['created_at'])
-    df = pd.read_csv('^DJI.csv', parse_dates= ['Date'])
+    df = pd.read_csv('^GSPC.csv', parse_dates= ['Date'])
     tweets = setupDF(tweets, df)
     words_weight = train(tweets)
     print("Finished Training")
