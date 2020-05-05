@@ -21,23 +21,6 @@ auth.set_access_token(access_token_key, access_token_secret)
 
 api = tweepy.API(auth)
 
-#arr = []
-#for status in tweepy.Cursor(api.user_timeline, screen_name="realDonaldTrump", tweet_mode='extended').items(20):
-#    print(status.full_text)
-#
-#print(arr)
-
-# t1 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1252042796151017472, tweet_mode='extended')
-# t2 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1249042796151017472, tweet_mode='extended')
-# t3 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1246459270352207879, tweet_mode='extended')
-# t4 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1243312056805318656, tweet_mode='extended')
-# t5 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1241570447344447488, tweet_mode='extended')
-# t6 = api.user_timeline(screen_name="realDonaldTrump", count=200, max_id = 1239201512171192321, tweet_mode='extended')
-
-#print(t5[198].id)
-
-# t = t1+t2[1:]+t3[1:]+t4[1:]+t5[1:]+t6[1:]
-
 def limit_handled(cursor):
     while True:
         try:
@@ -61,7 +44,6 @@ for tweet in limit_handled(tweepy.Cursor(api.user_timeline, screen_name="realDon
     if rmv_spec != '':
         created_at.append(tweet.created_at)
 
-print(len(tweets))
 
 df = pd.DataFrame({"text":tweets, "date":created_at})
 df.date = df.date.dt.tz_localize('UTC').dt.tz_convert('US/Eastern')
