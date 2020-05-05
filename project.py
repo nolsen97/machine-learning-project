@@ -21,8 +21,7 @@ stop_words = get_stop_words('english')
 def setupDF(tweets, df):
     df['Diff'] = df['Adj Close'] - df['Open']
 
-    #for i in df['Diff']:
-    #    print(i)
+
     tweets['date'] = pd.to_datetime(tweets.created_at, utc=True)
     tweets.date = tweets.date.dt.tz_convert('US/Eastern')
     tweets['date'] = tweets['date'].dt.date
@@ -112,7 +111,7 @@ def test(tweets, words_weight):
                     guess += 0
                 except:
                     guess += 0
-        #print(guess)
+
         if guess > 0:
             if tweets.loc[tweets['text'] == i, 'stock_mov'].iloc[0] > 0:
                 correct += 1
@@ -157,5 +156,3 @@ if __name__ == '__main__':
         if i[0] in stop_words:
             continue;
         print(i[0] + ": " + str(i[1]))
-
-# ADD WORD2VEC IN TRAINING
