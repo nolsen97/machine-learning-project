@@ -32,7 +32,9 @@ def setupDF(tweets, df):
     tweets['text'] = tweets['text'].str.lower()
     tweets['text'].replace('', np.nan, inplace=True)
     tweets.dropna(subset=['text'], inplace=True)
-    len(tweets['date'])
+
+    df.dropna(subset=['Open'], inplace=True)
+    df.reset_index(drop=True, inplace=True)
 
     tweets['stock_mov'] =  17066 * [0]
 
