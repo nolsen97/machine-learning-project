@@ -1,0 +1,7 @@
+Django==2.1.2
+django-crispy-forms==1.9.0
+django-jquery==3.1.0
+django-tables2==2.3.1
+numpy==1.18.3
+pygal==2.4.0
+pytz==2019.3

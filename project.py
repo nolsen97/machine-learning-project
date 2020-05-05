@@ -4,6 +4,7 @@ import pandas as pd
 import datetime
 import word2vec
 import numpy as np
+from stop_words import get_stop_words
 
 """
 The idea:
@@ -15,6 +16,7 @@ if stock market goes down, label these words negatively
 
 Train on 70%, Test on 30%
 """
+stop_words = get_stop_words('english')
 
 def setupDF(tweets, df):
     df['Diff'] = df['Adj Close'] - df['Open']
@@ -60,7 +62,6 @@ def train(tweets):
     words_weight = {}
 
     # model = word2vec.load('text8.bin')
-
     for i in tweets['text'][0:11950]:
         counter += 1
         if counter in [1195, 1195*2, 1195*3, 1195*4, 1195*5, 1195*6, 1195*7, 1195*8, 1195*9]:
@@ -131,7 +132,6 @@ def test(tweets, words_weight):
 if __name__ == '__main__':
     tweets = pd.read_csv('tweets_updated.csv', parse_dates= ['created_at'])
     df = pd.read_csv('CL=F.csv', parse_dates= ['Date'])
-
     tweets = setupDF(tweets, df)
     words_weight = train(tweets)
     print("Finished Training")
@@ -144,12 +144,16 @@ if __name__ == '__main__':
 
     print("10 Most Positive Words:")
     top_pos_words = sorted(words_weight.items(), key=lambda x: x[1], reverse=True)
-    for i in top_pos_words[:10]:
+    for i in top_pos_words[:30]:
+        if i in stop_words:
+            continue;
         print(i[0] + ": " + str(i[1]))
 
     print("10 Most negative Words:")
     top_neg_words = sorted(words_weight.items(), key=lambda x: x[1])
-    for i in top_neg_words[:10]:
+    for i in top_neg_words[:30]:
+        if i[0] in stop_words:
+            continue;
         print(i[0] + ": " + str(i[1]))
 
 # ADD WORD2VEC IN TRAINING
